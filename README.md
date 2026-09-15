@@ -1,59 +1,77 @@
 # Audiciones de las Chicas
 
-Landing page de la convocatoria mensual "Audiciones de las Chicas" (Las Chicas de IsArt). Sitio estático, sin build — listo para desplegar en Netlify.
+Landing page de la convocatoria mensual "Audiciones de las Chicas" (Las Chicas de IsArt).
+
+## Dónde vive cada cosa
+
+La página **de verdad**, la que reciben las visitas de Instagram, está publicada en
+**`laschicasdeisart.com/audiciones`** — vive en el repo `laschicasdeisart/landingpage`
+(carpeta `audiciones/`), servida por GitHub Pages junto al resto del sitio.
+
+Este repo (`regalos`) tiene dos funciones:
+
+1. **Copia de referencia** del mismo HTML/CSS/JS (útil para revisar cambios de copy o
+   estilo antes de llevarlos al repo del sitio principal).
+2. **Alojar la función serverless** que conecta el formulario con MailerLite
+   (`netlify/functions/subscribe.js`), desplegada en Netlify en
+   **`https://audiciones.netlify.app`**. GitHub Pages no puede ejecutar código de
+   servidor, así que esta pieza hace de puente: recibe los datos del formulario desde
+   `laschicasdeisart.com/audiciones` (llamada cross-origin) y ella sí llama a la API de
+   MailerLite con la API key guardada de forma segura (variable de entorno, nunca en el
+   código ni en el navegador).
+
+Este repo mismo también está desplegado en Netlify (la misma URL de arriba), así que su
+copia de `index.html` funciona igual como página de staging — con la ventaja extra de
+que, al estar en Netlify de verdad, también usa Netlify Forms como respaldo automático.
+La copia de producción (`landingpage/audiciones/`) no tiene Netlify Forms porque
+GitHub Pages no lo soporta; su único destino de datos es MailerLite vía la función.
 
 ## Estructura
 
 ```
-index.html                     página completa
+index.html                     copia de referencia / staging
 css/style.css                  estilos
-js/script.js                   validación de formulario + envío AJAX
-netlify.toml                   configuración de despliegue
-netlify/functions/subscribe.js función serverless que da de alta en MailerLite
-images/                        carpeta para la imagen del hero (ver abajo)
+js/script.js                   validación + envío (Netlify Forms + función MailerLite)
+netlify.toml                   config de despliegue (incluye netlify/functions)
+netlify/functions/subscribe.js función serverless: recibe el POST y da de alta en MailerLite
+images/hero.jpg                foto del hero
 ```
-
-## Contenido ya resuelto
-
-- **Imagen del hero**: `images/hero.jpg` (foto de las dos socias estilo directoras de casting, enmarcada e inclinada en el hero). Para cambiarla, sustituye ese archivo manteniendo el mismo nombre y ruta — no hay que tocar el CSS ni el HTML. Recomendado: relación de aspecto vertical similar (4:5), buena resolución, peso ligero para móvil.
-- **Enlace al Portfolio**: apunta a `https://portafolio.laschicasdeisart.com/` (sección `intro` en `index.html`). Si cambia la URL en el futuro, se edita ahí directamente.
 
 ## Formulario y captura de datos
 
-Cada envío se guarda en **dos sitios a la vez**:
+- **Producción** (`laschicasdeisart.com/audiciones`): el JS llama por fetch a
+  `https://audiciones.netlify.app/.netlify/functions/subscribe`, que valida los campos,
+  descarta bots (honeypot) y da de alta la suscriptora en MailerLite con los campos
+  personalizados `instagram` y `pitch`. Confirmado funcionando de punta a punta.
+- **Staging** (este repo, desplegado en Netlify): además de llamar a la misma función,
+  también guarda cada envío en Netlify Forms (Site → Forms) como respaldo adicional —
+  esto no aplica a la copia de producción por la limitación de GitHub Pages explicada
+  arriba.
 
-1. **Netlify Forms** — respaldo automático, sin configuración. Netlify detecta el `<form name="casting-form" data-netlify="true">` en el HTML y guarda cada envío en Site → Forms (exportable a CSV). Sirve de red de seguridad si algo falla en el paso 2.
-2. **MailerLite** — alta automática de la suscriptora en tu cuenta, en tiempo real, vía una función serverless (`netlify/functions/subscribe.js`) que llama a la API de MailerLite desde el servidor (así la API key nunca queda expuesta en el navegador). Esto es lo que evita tener que exportar manualmente de Netlify a MailerLite.
+### Variables de entorno (ya configuradas en Netlify)
 
-El envío se hace por AJAX (fetch a ambos destinos en paralelo), así que la usuaria ve la confirmación en la misma página sin recargar ni redirigir. Incluye un campo honeypot (`bot-field`) oculto para filtrar spam.
+- `MAILERLITE_API_KEY` — token de la API de MailerLite.
+- `MAILERLITE_GROUP_ID` — opcional; si no está presente, la suscriptora se crea sin
+  grupo asignado.
 
-### Configurar MailerLite (una sola vez)
+### CORS
 
-1. **Crea los campos personalizados** en MailerLite (Subscribers → Fields → Create field, tipo texto):
-   - Un campo llamado `Instagram` (la key resultante debe ser `instagram`).
-   - Un campo llamado `Pitch` (la key resultante debe ser `pitch`).
-   Si le pones otro nombre y la key sale distinta, avísame para ajustar `netlify/functions/subscribe.js` a esa key exacta.
+`subscribe.js` solo acepta llamadas desde `https://laschicasdeisart.com` y
+`https://www.laschicasdeisart.com` (lista `ALLOWED_ORIGINS` al principio del archivo).
+Si en el futuro la página se sirve desde otro dominio, hay que añadirlo ahí.
 
-2. **Crea (o elige) el grupo** donde quieres que caigan las audiciones, por ejemplo "Audiciones de las Chicas". Abre el grupo en MailerLite y copia su **Group ID** (aparece en la URL al entrar al grupo, o en Settings del grupo).
+## Si algo falla
 
-3. **Genera una API key**: MailerLite → Integrations → Developer API → Generate new token.
+Netlify → proyecto `audiciones` → **Cloud compute → Functions → subscribe** tiene el log
+en tiempo real de cada invocación (se retiene 24h). Ahí se ve el status code que devolvió
+MailerLite y cualquier error de validación.
 
-4. **Añade dos variables de entorno en Netlify** (Site settings → Environment variables) — nunca las pegues en el código ni me las compartas por chat:
-   - `MAILERLITE_API_KEY` = el token del paso 3.
-   - `MAILERLITE_GROUP_ID` = el ID del paso 2.
+## Actualizar el contenido de producción
 
-5. Vuelve a desplegar el sitio (o simplemente el primer deploy si aún no lo has hecho) para que la función recoja las variables.
-
-Si en algún momento la llamada a MailerLite falla (API caída, variables mal puestas, etc.), la ficha sigue quedando guardada en Netlify Forms igualmente — no se pierde ningún envío, solo no se auto-sincroniza ese caso puntual con MailerLite hasta que lo revises.
-
-## Despliegue en Netlify
-
-1. Conecta este repositorio en Netlify (New site from Git).
-2. Build command: (vacío / ninguno).
-3. Publish directory: `.`
-4. Netlify detecta `netlify/functions` automáticamente (ya está declarado en `netlify.toml`).
-5. Añade las variables de entorno de MailerLite (ver arriba) antes o después del primer deploy.
-6. Deploy.
+Editar en este repo (`regalos`) para probar visualmente, y cuando esté listo, copiar
+`index.html`, `css/style.css`, `js/script.js` e `images/hero.jpg` al repo
+`landingpage`, carpeta `audiciones/`, commit y push a `main` — GitHub Pages lo publica
+solo, sin pasos adicionales.
 
 ## Notas de marca
 

@@ -23,8 +23,6 @@ exports.handler = async function (event) {
   var origin = (event.headers && (event.headers.origin || event.headers.Origin)) || "";
   var headers = corsHeaders(origin);
 
-  console.log("subscribe: method=" + event.httpMethod + " origin=" + origin + " originAllowed=" + (headers["Access-Control-Allow-Origin"] ? "yes" : "no"));
-
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: headers, body: "" };
   }
@@ -35,8 +33,6 @@ exports.handler = async function (event) {
 
   var apiKey = process.env.MAILERLITE_API_KEY;
   var groupId = process.env.MAILERLITE_GROUP_ID;
-
-  console.log("subscribe: apiKeyPresent=" + Boolean(apiKey) + " groupIdPresent=" + Boolean(groupId));
 
   if (!apiKey) {
     return {
@@ -50,7 +46,6 @@ exports.handler = async function (event) {
   try {
     data = JSON.parse(event.body || "{}");
   } catch (e) {
-    console.log("subscribe: invalid JSON body=" + event.body);
     return { statusCode: 400, headers: headers, body: JSON.stringify({ error: "JSON inválido." }) };
   }
 
@@ -64,7 +59,6 @@ exports.handler = async function (event) {
   var pitch = (data.pitch || "").trim();
 
   if (!email || !EMAIL_RE.test(email) || !instagram || !pitch) {
-    console.log("subscribe: missing/invalid fields email=" + JSON.stringify(email) + " instagram=" + JSON.stringify(instagram) + " pitchLen=" + pitch.length);
     return { statusCode: 400, headers: headers, body: JSON.stringify({ error: "Faltan campos obligatorios." }) };
   }
 
@@ -92,9 +86,8 @@ exports.handler = async function (event) {
 
     var responseBody = await response.text();
 
-    console.log("subscribe: mailerlite status=" + response.status + " body=" + responseBody);
-
     if (!response.ok) {
+      console.log("subscribe: mailerlite rejected status=" + response.status + " body=" + responseBody);
       return {
         statusCode: 502,
         headers: headers,
