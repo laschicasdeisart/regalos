@@ -1,0 +1,424 @@
+/* ==========================================================
+   Las Chicas de IsArt — Audiciones de las Chicas
+   Editorial / cinematic casting-call style
+   ========================================================== */
+
+:root {
+  --bg: #080c0b;
+  --bg-raised: #0f1512;
+  --text: #f3efe7;
+  --text-muted: rgba(243, 239, 231, 0.62);
+  --text-faint: rgba(243, 239, 231, 0.32);
+  --teal: #1b9986;
+  --mustard: #c8922a;
+  --burnt: #d4622a;
+  --border: rgba(243, 239, 231, 0.14);
+
+  --font-display: "Bodoni Moda", "Times New Roman", serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --container-w: 1180px;
+  --container-w-narrow: 780px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, input, textarea, button {
+  font-family: inherit;
+}
+
+*, button, input, textarea {
+  border-radius: 0 !important;
+}
+
+.container {
+  max-width: var(--container-w);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container-narrow {
+  max-width: var(--container-w-narrow);
+}
+
+/* ---------- Topbar ---------- */
+
+.topbar {
+  padding: 28px 0;
+}
+
+.topbar-inner {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.wordmark {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--text);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(27, 153, 134, 0.12), transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(212, 98, 42, 0.10), transparent 55%),
+    var(--bg);
+  background-image:
+    radial-gradient(ellipse at 30% 20%, rgba(27, 153, 134, 0.12), transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(212, 98, 42, 0.10), transparent 55%),
+    url("../images/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, var(--bg) 0%, rgba(8, 12, 11, 0.55) 45%, rgba(8, 12, 11, 0.15) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding-top: 140px;
+  padding-bottom: 96px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--mustard);
+  margin: 0 0 20px;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  margin: 0 0 28px;
+  max-width: 16ch;
+}
+
+.subheadline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--text-muted);
+  max-width: 40ch;
+  margin: 0 0 44px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 18px 40px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--burnt);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--mustard);
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: 12px;
+}
+
+@media (min-width: 640px) {
+  .btn-submit {
+    width: auto;
+  }
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding: 96px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1.15;
+  margin: 0 0 16px;
+  max-width: 22ch;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin: 0 0 56px;
+}
+
+/* ---------- Intro ---------- */
+
+.intro-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  line-height: 1.45;
+  color: var(--text);
+  margin: 0;
+}
+
+.intro-text strong {
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.link-accent {
+  color: var(--mustard);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.link-accent:hover {
+  color: var(--burnt);
+}
+
+/* ---------- Criteria ---------- */
+
+.criteria-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.criteria-item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+}
+
+.criteria-item:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.criteria-index {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--mustard);
+}
+
+.criteria-heading {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  margin: 0 0 8px;
+}
+
+.criteria-text {
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 60ch;
+}
+
+@media (min-width: 720px) {
+  .criteria-item {
+    grid-template-columns: 96px 1fr;
+  }
+}
+
+/* ---------- Form ---------- */
+
+.field {
+  margin-bottom: 32px;
+}
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.field-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.05rem;
+  padding: 12px 0;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.field-input::placeholder {
+  color: var(--text-faint);
+}
+
+.field-input:focus {
+  border-bottom-color: var(--teal);
+}
+
+.field-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.field.has-error .field-input {
+  border-bottom-color: var(--burnt);
+}
+
+.field-error {
+  display: none;
+  color: var(--burnt);
+  font-size: 13px;
+  margin: 8px 0 0;
+}
+
+.field.has-error .field-error {
+  display: block;
+}
+
+.honeypot-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-confirmation {
+  border: 1px solid var(--teal);
+  padding: 40px;
+}
+
+.form-confirmation h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.6rem;
+  margin: 0 0 12px;
+  color: var(--teal);
+}
+
+.form-confirmation p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* ---------- Closing ---------- */
+
+.closing {
+  border-bottom: none;
+  text-align: center;
+}
+
+.closing-text {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 56ch;
+  margin: 0 auto 40px;
+}
+
+.closing-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  padding: 36px 0;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+@media (min-width: 640px) {
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .section {
+    padding: 64px 0;
+  }
+
+  .hero-content {
+    padding-top: 100px;
+    padding-bottom: 64px;
+  }
+
+  .criteria-item {
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+  }
+}
