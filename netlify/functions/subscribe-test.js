@@ -1,5 +1,4 @@
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const VALID_RESULTS = ["R1", "R2", "R3"];
 
 // Orígenes desde los que puede llamarse esta función (la página vive en
 // laschicasdeisart.com/testcommunity, servida por GitHub Pages, fuera de Netlify).
@@ -56,17 +55,13 @@ exports.handler = async function (event) {
   }
 
   var email = (data.email || "").trim();
-  var resultado = (data.resultado || "").trim();
 
-  if (!email || !EMAIL_RE.test(email) || VALID_RESULTS.indexOf(resultado) === -1) {
-    return { statusCode: 400, headers: headers, body: JSON.stringify({ error: "Faltan campos obligatorios." }) };
+  if (!email || !EMAIL_RE.test(email)) {
+    return { statusCode: 400, headers: headers, body: JSON.stringify({ error: "Falta el email." }) };
   }
 
   var payload = {
     email: email,
-    fields: {
-      test_resultado: resultado,
-    },
   };
   if (groupId) {
     payload.groups = [groupId];
