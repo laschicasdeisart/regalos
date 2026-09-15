@@ -80,20 +80,37 @@
     submitBtn.disabled = true;
     submitBtn.textContent = "Enviando...";
 
-    var payload = {
+    var email = document.getElementById("email").value.trim();
+    var instagram = document.getElementById("instagram").value.trim();
+    var pitch = document.getElementById("pitch").value.trim();
+
+    var formPayload = {
       "form-name": "casting-form",
-      email: document.getElementById("email").value.trim(),
-      instagram: document.getElementById("instagram").value.trim(),
-      pitch: document.getElementById("pitch").value.trim(),
+      email: email,
+      instagram: instagram,
+      pitch: pitch,
     };
 
-    fetch("/", {
+    // Registro de respaldo en Netlify Forms (siempre queda guardado aquí).
+    var savedToNetlify = fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encodeForm(payload),
-    })
-      .then(function (response) {
-        if (!response.ok) {
+      body: encodeForm(formPayload),
+    });
+
+    // Alta en tiempo real en MailerLite, vía función serverless (mantiene la API key fuera del navegador).
+    var savedToMailerLite = fetch("/.netlify/functions/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, instagram: instagram, pitch: pitch }),
+    }).catch(function () {
+      /* best-effort: si falla, la ficha sigue quedando en Netlify Forms */
+    });
+
+    Promise.all([savedToNetlify, savedToMailerLite])
+      .then(function (results) {
+        var netlifyResponse = results[0];
+        if (!netlifyResponse.ok) {
           throw new Error("Network response was not ok");
         }
         form.hidden = true;
