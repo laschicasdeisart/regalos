@@ -12,7 +12,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -28,16 +28,20 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <!-- PLACEHOLDER IMAGEN: coloca el archivo en images/hero.jpg (estilo "directoras de casting de cine").
-         Si el archivo no existe, esta sección se ve bien igualmente con el fondo oscuro de marca. -->
-    <div class="hero-media" aria-hidden="true"></div>
-    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Convocatoria mensual</p>
+        <h1 class="headline">Audiciones<br>de las<br>Chicas</h1>
+        <p class="subheadline">Cada mes, elegimos una marca para regalarle su mejor reel.<br>No es un sorteo. Es un casting.</p>
+        <a href="#ficha-de-casting" class="btn btn-primary">Quiero audicionar</a>
+      </div>
 
-    <div class="container hero-content">
-      <p class="eyebrow">Convocatoria mensual</p>
-      <h1 class="headline">Audiciones<br>de las Chicas</h1>
-      <p class="subheadline">Cada mes, elegimos una marca para regalarle su mejor reel.<br>No es un sorteo. Es un casting.</p>
-      <a href="#ficha-de-casting" class="btn btn-primary">Quiero audicionar</a>
+      <div class="hero-photo-wrap">
+        <div class="hero-photo">
+          <img src="images/hero.jpg" alt="Las Chicas de IsArt, estilo directoras de casting" class="hero-photo-img">
+        </div>
+        <span class="hero-tag">Casting abierto</span>
+      </div>
     </div>
   </section>
 
@@ -154,7 +158,9 @@
         Esto no es cosa de una sola vez. La última semana de cada mes abrimos convocatoria, y tu
         participación queda registrada — no necesitas volver a apuntarte para participar siempre.
       </p>
-      <p class="closing-line">No prometemos que ganes. Prometemos que, si lo haces, se va a notar.</p>
+      <p class="closing-line">
+        <span class="closing-note">No prometemos que ganes. Prometemos que, si lo haces, se va a notar.</span>
+      </p>
     </div>
   </section>
 

@@ -13,23 +13,10 @@ netlify/functions/subscribe.js función serverless que da de alta en MailerLite
 images/                        carpeta para la imagen del hero (ver abajo)
 ```
 
-## Pendientes a rellenar
+## Contenido ya resuelto
 
-### 1. Imagen del hero
-Coloca el archivo de la foto (las chicas estilo directoras de casting de cine) en:
-
-```
-images/hero.jpg
-```
-
-No hay que tocar nada más — el CSS ya referencia esa ruta (`css/style.css`, clase `.hero-media`). Mientras el archivo no exista, la sección se ve bien igualmente con el fondo oscuro de marca.
-
-Recomendado: imagen apaisada, buena resolución (mínimo 1600px de ancho), peso optimizado (idealmente por debajo de 400 KB) para que cargue rápido en móvil.
-
-Forma más rápida de subirla sin herramientas extra: en GitHub, entra al repo → carpeta `images/` → "Add file" → "Upload files" → sube el archivo con el nombre exacto `hero.jpg`. En cuanto esté en esa ruta, la web la recoge sola.
-
-### 2. Enlace al Portfolio
-Ya apunta a `https://portafolio.laschicasdeisart.com/` (sección `intro` en `index.html`). Si cambia la URL en el futuro, se edita ahí directamente.
+- **Imagen del hero**: `images/hero.jpg` (foto de las dos socias estilo directoras de casting, enmarcada e inclinada en el hero). Para cambiarla, sustituye ese archivo manteniendo el mismo nombre y ruta — no hay que tocar el CSS ni el HTML. Recomendado: relación de aspecto vertical similar (4:5), buena resolución, peso ligero para móvil.
+- **Enlace al Portfolio**: apunta a `https://portafolio.laschicasdeisart.com/` (sección `intro` en `index.html`). Si cambia la URL en el futuro, se edita ahí directamente.
 
 ## Formulario y captura de datos
 
@@ -71,6 +58,6 @@ Si en algún momento la llamada a MailerLite falla (API caída, variables mal pu
 ## Notas de marca
 
 - Sin esquinas redondeadas en ningún elemento (`border-radius: 0`), según guía de marca.
-- Tipografías: Bodoni Moda (titulares, estilo editorial/cinematográfico) + Inter (texto e interfaz).
+- Tipografías: Anton (titulares condensados en mayúscula, estilo póster/collage inspirado en rectangles.fm) + Space Mono (etiquetas, números, nota de cierre, estilo "a máquina") + Inter (texto e interfaz).
 - Paleta: fondo `#080c0b`, verde azulado `#1b9986`, mostaza `#c8922a`, naranja quemado `#d4622a`.
 - Sin emojis en copy ni en iconografía.
