@@ -1,5 +1,11 @@
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Grupo "Audiciones" en MailerLite (mismo grupo que la landing de
+// Audiciones — decisión explícita para que estos leads compartan
+// secuencia de nutrición). No es un dato sensible, así que va fijo
+// aquí en vez de depender de una variable de entorno en Netlify.
+const GROUP_ID = "198700581779408193";
+
 // Orígenes desde los que puede llamarse esta función (la página vive en
 // laschicasdeisart.com/testcommunity, servida por GitHub Pages, fuera de Netlify).
 var ALLOWED_ORIGINS = [
@@ -32,7 +38,6 @@ exports.handler = async function (event) {
   }
 
   var apiKey = process.env.MAILERLITE_API_KEY;
-  var groupId = process.env.MAILERLITE_GROUP_ID;
 
   if (!apiKey) {
     return {
@@ -62,10 +67,8 @@ exports.handler = async function (event) {
 
   var payload = {
     email: email,
+    groups: [GROUP_ID],
   };
-  if (groupId) {
-    payload.groups = [groupId];
-  }
 
   try {
     var response = await fetch("https://connect.mailerlite.com/api/subscribers", {
